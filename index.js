@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const { makeBadge, ValidationError } = require('badge-maker')
 
 inquirer 
 .prompt([
@@ -10,23 +11,44 @@ inquirer
       },
       {
         type: 'input',
-        message: 'What is your motivation for this project?',
-        name: 'descriptionOne',
+        message: 'Please describe your project. What was your motivation? Why did you build the project? What problem does it solve? What did you learn?',
+        name: 'description',
       },
       {
         type: 'input',
-        message: 'Why did you build this project?',
-        name: 'descriptionTwo',
+        message: 'Please provide installation directions',
+        name: 'installation',
       },
       {
         type: 'input',
-        message: 'What is your age?',
-        name: 'age',
+        message: 'Please provide usage instructions',
+        name: 'usage',
+      },
+      {
+        type: 'input',
+        message: 'Please provide contribution guidelines',
+        name: 'contribution',
+      },
+      {
+        type: 'list',
+        message: 'Which license is used on this project?',
+        name: 'license',
+        choices: ['None', 'Apache_License_2.0', 'GNU_General_Public_Licence_v3.0', 'MIT_License', 'BSD_2-Clause_"simplified"_License', 'BSD_2-Clause_"new"_or_"Revised"_License', 'Boost_Software_License_1.0', 'Creative_Commons_Zero_v1.0_Universal'],
+      },
+      {
+        type: 'input',
+        message: 'What is your Git username?',
+        name: 'gitName',
+      },
+      {
+        type: 'input',
+        message: 'What is your email address?',
+        name: 'email',
       },
     ])
     .then((answers) => {
         const readMe = responseReadMe(answers)
-        fs.writeFile('readme.md', html, err => {
+        fs.writeFile('readme.md', readMe, err => {
             if(err) { console.error(err) 
             }else {
              console.log('Commit logged!')
@@ -37,10 +59,37 @@ inquirer
 
 function responseReadMe (answers) {
     return `
-   # ${answers.name}
+    # ${answers.name}
 
-   ## Description
+    ## Description
+    ${answers.description}
 
+    ## Table of Contents
+
+    - [Installation](#installation)
+    - [Usage](#usage)
+    - [Credits](#credits)
+    - [License](#license)
+    - [Contribution](#contribution)
+    - [Questions](#questions)
+    
+    ## Installation
+    ${answers.installation}
+
+    ## Usage
+    ${answers.usage}
+    
+    ## Licence
+    ${answers.license}
+
+    ## Contribution
+    ${answers.contribution}
+
+    ## Badges 
+     https://img.shields.io/badge/${answers.license}-8A2BE2
+
+    ## Questions
+    If you have additional questions please reference my github account https://github.com/${answers.gitName} or reach out to me by email at ${answers.email}
 
     `
 }
