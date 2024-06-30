@@ -2,6 +2,8 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const { makeBadge, ValidationError } = require('badge-maker')
 
+
+
 inquirer 
 .prompt([
     {
@@ -33,7 +35,7 @@ inquirer
         type: 'list',
         message: 'Which license is used on this project?',
         name: 'license',
-        choices: ['None', 'Apache_License_2.0', 'GNU_General_Public_Licence_v3.0', 'MIT_License', 'BSD_2-Clause_"simplified"_License', 'BSD_2-Clause_"new"_or_"Revised"_License', 'Boost_Software_License_1.0', 'Creative_Commons_Zero_v1.0_Universal'],
+        choices: ['None', 'Apache-License-2.0', 'GNU-General-Public-Licence-v3.0', 'MIT-License', 'BSD-2-Clause-"simplified"-License', 'BSD_2-Clause_"new"_or_"Revised"_License', 'Boost_Software_License_1.0', 'Creative_Commons_Zero_v1.0_Universal'],
       },
       {
         type: 'input',
@@ -46,7 +48,11 @@ inquirer
         name: 'email',
       },
     ])
+    
+
     .then((answers) => {
+        
+          
         const readMe = responseReadMe(answers)
         fs.writeFile('readme.md', readMe, err => {
             if(err) { console.error(err) 
@@ -56,8 +62,18 @@ inquirer
     })
     });
 
+    
 
 function responseReadMe (answers) {
+    const format = {
+        label: 'licence',
+        message: `${answers.licence}`,
+        color: 'brightgreen',
+      }
+      
+      const svg = makeBadge(format)
+      
+
     return `
     # ${answers.name}
 
@@ -86,7 +102,7 @@ function responseReadMe (answers) {
     ${answers.contribution}
 
     ## Badges 
-     https://img.shields.io/badge/${answers.license}-8A2BE2
+     ![Static Badge] (${svg})
 
     ## Questions
     If you have additional questions please reference my github account https://github.com/${answers.gitName} or reach out to me by email at ${answers.email}
