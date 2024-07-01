@@ -6,9 +6,9 @@
 
     ## Table of Contents
 
-    - [Installation](##installation)
-    - [Usage](##usage)
-    - [Credits](##credits)
+    - [Installation](#installation)
+    - [Usage](#usage)
+    - [Credits](#credits)
     - [License](#license)
     - [Contribution](#contribution)
     - [Questions](#questions)
